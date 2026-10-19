@@ -1,0 +1,20 @@
+{
+  "name": "templatd",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TemplaTD · 图形即防事 —— 把图形在工坊里拼好、提交进化成单格炮塔，再送进一座与图形系统毫无瓜葛的纯算法塔防。无构建、无运行时依赖。",
+  "license": "MIT",
+  "scripts": {
+    "test": "node test/smoke.mjs && node test/smoke_ui.mjs && node test/smoke_play.mjs",
+    "test:core": "node test/smoke.mjs",
+    "test:ui": "node test/smoke_ui.mjs",
+    "test:play": "node test/smoke_play.mjs",
+    "test:balance": "node test/_balance.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "^26.1.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

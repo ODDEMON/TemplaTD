@@ -1,0 +1,21 @@
+import fs from 'fs'; import path from 'path';
+const ROOT='E:/__SOMETHING_REAL__/AI_Work/TemplaTD';
+const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
+import { JSDOM, VirtualConsole } from 'jsdom';
+const vc=new VirtualConsole(); vc.on('jsdomError',e=>console.log('JSDOMERR',e.message));
+const dom=new JSDOM(html,{url:'http://localhost/',runScripts:'dangerously',resources:undefined,virtualConsole:vc,beforeParse(w){w.requestAnimationFrame=()=>0;w.cancelAnimationFrame=()=>{};}});
+const w=dom.window;
+const ORDER=[]; const re=/<script src="([^"]+)"><\/script>/g; let m;
+while((m=re.exec(html))) ORDER.push(m[1]);
+for(const f of ORDER) w.eval(fs.readFileSync(path.join(ROOT,f),'utf8'));
+const BS=w.BS;
+BS.shop.clear(); BS.shop.place(0,[3,2],0);
+const sub=BS.shop.submit();
+const r=BS.run.newRun(31337);
+BS.run.add(r, sub.rec.id, [2,2]);
+BS.run.begin(r);
+const b=r.battle;
+console.log('comp', JSON.stringify(BS.waves.comp(b.seed,1)), 'scale', JSON.stringify(BS.waves.scale(1)));
+for(let i=0;i<60;i++){ BS.td.tickOnce(b);
+  if(i%10===9) console.log('t'+(i+1),'spawn',b.toSpawn.length,'ene',b.enemies.length,'hp',b.baseHp,'kills',JSON.stringify(b.kills),'lux',b.lux); }
+console.log('tower', JSON.stringify({i:b.towers[0].i,j:b.towers[0].j,range:b.towers[0].a.range}));

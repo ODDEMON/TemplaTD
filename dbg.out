@@ -1,0 +1,9 @@
+okCells: 42
+shop n: 4
+armory: [{"id":0,"serial":"TC-000","cost":9,"nm":"进化体·裂 000"}]
+run: false
+has new btn: true
+jsdomError: Uncaught [TypeError: Cannot read properties of null (reading 'enemies')]
+run after new: deploy armory len: 1
+panel txt: 塔防TOWER DEFENSE从军械库挑出进化好的炮塔，部署在路径两旁，然后开战。现在没有进行中的一局。开一局新的
+pick btns: 0

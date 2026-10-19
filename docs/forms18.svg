@@ -1,0 +1,79 @@
+<svg viewBox="0 0 680 548" width="100%" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>还原之后的十八种型</title>
+<desc>梁框拱十字叉三角菱阶雷裂梯门梳巢折符塔盘，每种用库里一件真实元件画出</desc>
+<text class="th" x="40" y="26">十八种型回来了：每种都用库里一件真件画出来</text>
+<text class="ts" x="40" y="46">下面每一格是该型的真实格点排布，右下角是这一件的格数</text>
+<line x1="40" y1="56" x2="640" y2="56" stroke="var(--color-border-tertiary)" stroke-width="0.5"/>
+<path d="M43 105.5h3v3h-3zM46 105.5h3v3h-3zM49 105.5h3v3h-3zM52 105.5h3v3h-3zM55 105.5h3v3h-3zM58 105.5h3v3h-3zM61 105.5h3v3h-3zM64 105.5h3v3h-3zM67 105.5h3v3h-3zM70 105.5h3v3h-3zM73 105.5h3v3h-3zM76 105.5h3v3h-3zM79 105.5h3v3h-3zM82 105.5h3v3h-3zM85 105.5h3v3h-3zM88 105.5h3v3h-3zM91 105.5h3v3h-3zM94 105.5h3v3h-3zM97 105.5h3v3h-3zM100 105.5h3v3h-3zM103 105.5h3v3h-3zM106 105.5h3v3h-3zM109 105.5h3v3h-3zM112 105.5h3v3h-3zM115 105.5h3v3h-3zM118 105.5h3v3h-3zM121 105.5h3v3h-3zM124 105.5h3v3h-3z" fill="var(--color-text-secondary)"/>
+<text class="th" x="85" y="158" text-anchor="middle">▬ 梁</text>
+<text class="ts" x="85" y="176" text-anchor="middle">BEAM</text>
+<text class="ts" x="85" y="194" text-anchor="middle">28 格 · #12906</text>
+<path d="M157 79h8v8h-8zM157 87h8v8h-8zM157 95h8v8h-8zM157 103h8v8h-8zM157 111h8v8h-8zM157 119h8v8h-8zM157 127h8v8h-8zM165 79h8v8h-8zM165 127h8v8h-8zM173 79h8v8h-8zM173 127h8v8h-8zM181 79h8v8h-8zM181 127h8v8h-8zM189 79h8v8h-8zM189 127h8v8h-8zM197 79h8v8h-8zM197 127h8v8h-8zM205 79h8v8h-8zM205 87h8v8h-8zM205 95h8v8h-8zM205 103h8v8h-8zM205 111h8v8h-8zM205 119h8v8h-8zM205 127h8v8h-8z" fill="var(--color-text-secondary)"/>
+<text class="th" x="185" y="158" text-anchor="middle">▭ 框</text>
+<text class="ts" x="185" y="176" text-anchor="middle">FRAME</text>
+<text class="ts" x="185" y="194" text-anchor="middle">24 格 · #1022</text>
+<path d="M261 79h8v8h-8zM261 87h8v8h-8zM261 95h8v8h-8zM261 103h8v8h-8zM261 111h8v8h-8zM261 119h8v8h-8zM261 127h8v8h-8zM269 119h8v8h-8zM277 111h8v8h-8zM277 119h8v8h-8zM277 127h8v8h-8zM285 111h8v8h-8zM285 119h8v8h-8zM285 127h8v8h-8zM293 119h8v8h-8zM301 79h8v8h-8zM301 87h8v8h-8zM301 95h8v8h-8zM301 103h8v8h-8zM301 111h8v8h-8zM301 119h8v8h-8zM301 127h8v8h-8z" fill="var(--color-text-secondary)"/>
+<text class="th" x="285" y="158" text-anchor="middle">⌂ 拱</text>
+<text class="ts" x="285" y="176" text-anchor="middle">ARCH</text>
+<text class="ts" x="285" y="194" text-anchor="middle">22 格 · #576</text>
+<path d="M357.5 90.5h11v11h-11zM357.5 101.5h11v11h-11zM357.5 112.5h11v11h-11zM368.5 79.5h11v11h-11zM368.5 90.5h11v11h-11zM368.5 101.5h11v11h-11zM368.5 112.5h11v11h-11zM368.5 123.5h11v11h-11zM379.5 79.5h11v11h-11zM379.5 90.5h11v11h-11zM379.5 101.5h11v11h-11zM379.5 112.5h11v11h-11zM379.5 123.5h11v11h-11zM390.5 79.5h11v11h-11zM390.5 90.5h11v11h-11zM390.5 101.5h11v11h-11zM390.5 112.5h11v11h-11zM390.5 123.5h11v11h-11zM401.5 90.5h11v11h-11zM401.5 101.5h11v11h-11zM401.5 112.5h11v11h-11z" fill="var(--color-text-secondary)"/>
+<text class="th" x="385" y="158" text-anchor="middle">✚ 十字</text>
+<text class="ts" x="385" y="176" text-anchor="middle">CROSS</text>
+<text class="ts" x="385" y="194" text-anchor="middle">21 格 · #15491</text>
+<path d="M457 79h8v8h-8zM457 87h8v8h-8zM457 119h8v8h-8zM457 127h8v8h-8zM465 87h8v8h-8zM465 95h8v8h-8zM465 111h8v8h-8zM465 119h8v8h-8zM473 95h8v8h-8zM473 103h8v8h-8zM473 111h8v8h-8zM481 103h8v8h-8zM489 95h8v8h-8zM489 103h8v8h-8zM489 111h8v8h-8zM497 87h8v8h-8zM497 95h8v8h-8zM497 111h8v8h-8zM497 119h8v8h-8zM505 79h8v8h-8zM505 87h8v8h-8zM505 119h8v8h-8zM505 127h8v8h-8z" fill="var(--color-text-secondary)"/>
+<text class="th" x="485" y="158" text-anchor="middle">✕ 叉</text>
+<text class="ts" x="485" y="176" text-anchor="middle">SALTIRE</text>
+<text class="ts" x="485" y="194" text-anchor="middle">23 格 · #261</text>
+<path d="M557.5 92h5v5h-5zM557.5 97h5v5h-5zM562.5 92h5v5h-5zM562.5 97h5v5h-5zM562.5 102h5v5h-5zM567.5 92h5v5h-5zM567.5 102h5v5h-5zM567.5 107h5v5h-5zM572.5 92h5v5h-5zM572.5 107h5v5h-5zM572.5 112h5v5h-5zM577.5 92h5v5h-5zM577.5 112h5v5h-5zM577.5 117h5v5h-5zM582.5 92h5v5h-5zM582.5 117h5v5h-5zM587.5 92h5v5h-5zM587.5 112h5v5h-5zM587.5 117h5v5h-5zM592.5 92h5v5h-5zM592.5 107h5v5h-5zM592.5 112h5v5h-5zM597.5 92h5v5h-5zM597.5 102h5v5h-5zM597.5 107h5v5h-5zM602.5 92h5v5h-5zM602.5 97h5v5h-5zM602.5 102h5v5h-5zM607.5 92h5v5h-5zM607.5 97h5v5h-5z" fill="var(--color-text-secondary)"/>
+<text class="th" x="585" y="158" text-anchor="middle">△ 三角</text>
+<text class="ts" x="585" y="176" text-anchor="middle">TRIANGLE</text>
+<text class="ts" x="585" y="194" text-anchor="middle">30 格 · #595</text>
+<path d="M58 256h6v6h-6zM64 250h6v6h-6zM64 256h6v6h-6zM64 262h6v6h-6zM70 244h6v6h-6zM70 250h6v6h-6zM70 262h6v6h-6zM70 268h6v6h-6zM76 238h6v6h-6zM76 244h6v6h-6zM76 268h6v6h-6zM76 274h6v6h-6zM82 232h6v6h-6zM82 238h6v6h-6zM82 274h6v6h-6zM82 280h6v6h-6zM88 238h6v6h-6zM88 244h6v6h-6zM88 268h6v6h-6zM88 274h6v6h-6zM94 244h6v6h-6zM94 250h6v6h-6zM94 262h6v6h-6zM94 268h6v6h-6zM100 250h6v6h-6zM100 256h6v6h-6zM100 262h6v6h-6zM106 256h6v6h-6z" fill="var(--color-text-secondary)"/>
+<text class="th" x="85" y="310" text-anchor="middle">◇ 菱</text>
+<text class="ts" x="85" y="328" text-anchor="middle">DIAMOND</text>
+<text class="ts" x="85" y="346" text-anchor="middle">28 格 · #3239</text>
+<path d="M158 236.5h9v9h-9zM167 236.5h9v9h-9zM167 245.5h9v9h-9zM176 245.5h9v9h-9zM176 254.5h9v9h-9zM185 254.5h9v9h-9zM185 263.5h9v9h-9zM194 263.5h9v9h-9zM194 272.5h9v9h-9zM203 272.5h9v9h-9z" fill="var(--color-text-secondary)"/>
+<text class="th" x="185" y="310" text-anchor="middle">◢ 阶</text>
+<text class="ts" x="185" y="328" text-anchor="middle">STAIR</text>
+<text class="ts" x="185" y="346" text-anchor="middle">10 格 · #209</text>
+<path d="M276 235h3v3h-3zM276 238h3v3h-3zM276 241h3v3h-3zM276 244h3v3h-3zM279 244h3v3h-3zM279 247h3v3h-3zM279 250h3v3h-3zM279 253h3v3h-3zM279 256h3v3h-3zM279 259h3v3h-3zM279 262h3v3h-3zM279 268h3v3h-3zM282 259h3v3h-3zM282 262h3v3h-3zM282 265h3v3h-3zM282 268h3v3h-3zM282 271h3v3h-3zM285 271h3v3h-3zM285 274h3v3h-3zM288 274h3v3h-3zM288 277h3v3h-3zM288 280h3v3h-3zM291 274h3v3h-3zM291 277h3v3h-3z" fill="var(--color-text-secondary)"/>
+<text class="th" x="285" y="310" text-anchor="middle">⚡ 雷</text>
+<text class="ts" x="285" y="328" text-anchor="middle">BOLT</text>
+<text class="ts" x="285" y="346" text-anchor="middle">24 格 · #6773</text>
+<path d="M360.5 231h7v7h-7zM360.5 238h7v7h-7zM367.5 238h7v7h-7zM367.5 245h7v7h-7zM367.5 259h7v7h-7zM374.5 245h7v7h-7zM374.5 252h7v7h-7zM374.5 259h7v7h-7zM374.5 266h7v7h-7zM381.5 252h7v7h-7zM381.5 259h7v7h-7zM381.5 266h7v7h-7zM381.5 273h7v7h-7zM381.5 280h7v7h-7zM388.5 238h7v7h-7zM388.5 245h7v7h-7zM388.5 252h7v7h-7zM388.5 259h7v7h-7zM388.5 266h7v7h-7zM388.5 273h7v7h-7zM388.5 280h7v7h-7zM395.5 252h7v7h-7zM395.5 259h7v7h-7zM402.5 259h7v7h-7z" fill="var(--color-text-secondary)"/>
+<text class="th" x="385" y="310" text-anchor="middle">⁘ 裂</text>
+<text class="ts" x="385" y="328" text-anchor="middle">SHARD</text>
+<text class="ts" x="385" y="346" text-anchor="middle">24 格 · #466</text>
+<path d="M473 232h6v6h-6zM473 238h6v6h-6zM473 244h6v6h-6zM473 250h6v6h-6zM473 256h6v6h-6zM473 262h6v6h-6zM473 268h6v6h-6zM473 274h6v6h-6zM473 280h6v6h-6zM479 238h6v6h-6zM479 250h6v6h-6zM479 262h6v6h-6zM479 274h6v6h-6zM485 238h6v6h-6zM485 250h6v6h-6zM485 262h6v6h-6zM485 274h6v6h-6zM491 232h6v6h-6zM491 238h6v6h-6zM491 244h6v6h-6zM491 250h6v6h-6zM491 256h6v6h-6zM491 262h6v6h-6zM491 268h6v6h-6zM491 274h6v6h-6zM491 280h6v6h-6z" fill="var(--color-text-secondary)"/>
+<text class="th" x="485" y="310" text-anchor="middle">⋈ 梯</text>
+<text class="ts" x="485" y="328" text-anchor="middle">LADDER</text>
+<text class="ts" x="485" y="346" text-anchor="middle">26 格 · #49</text>
+<path d="M561 241h4v4h-4zM561 245h4v4h-4zM561 249h4v4h-4zM561 253h4v4h-4zM561 257h4v4h-4zM561 261h4v4h-4zM561 265h4v4h-4zM561 269h4v4h-4zM561 273h4v4h-4zM565 241h4v4h-4zM569 241h4v4h-4zM573 241h4v4h-4zM577 241h4v4h-4zM581 241h4v4h-4zM585 241h4v4h-4zM589 241h4v4h-4zM593 241h4v4h-4zM597 241h4v4h-4zM601 241h4v4h-4zM605 241h4v4h-4zM605 245h4v4h-4zM605 249h4v4h-4zM605 253h4v4h-4zM605 257h4v4h-4zM605 261h4v4h-4zM605 265h4v4h-4zM605 269h4v4h-4zM605 273h4v4h-4z" fill="var(--color-text-secondary)"/>
+<text class="th" x="585" y="310" text-anchor="middle">⌐ 门</text>
+<text class="ts" x="585" y="328" text-anchor="middle">GATE</text>
+<text class="ts" x="585" y="346" text-anchor="middle">28 格 · #35128</text>
+<path d="M61 408h3v3h-3zM61 411h3v3h-3zM64 408h3v3h-3zM67 408h3v3h-3zM67 411h3v3h-3zM70 408h3v3h-3zM73 408h3v3h-3zM73 411h3v3h-3zM76 408h3v3h-3zM79 408h3v3h-3zM79 411h3v3h-3zM82 408h3v3h-3zM85 408h3v3h-3zM85 411h3v3h-3zM88 408h3v3h-3zM91 408h3v3h-3zM91 411h3v3h-3zM94 408h3v3h-3zM97 408h3v3h-3zM97 411h3v3h-3zM100 408h3v3h-3zM103 408h3v3h-3zM103 411h3v3h-3zM106 408h3v3h-3z" fill="var(--color-text-secondary)"/>
+<text class="th" x="85" y="462" text-anchor="middle">⋔ 梳</text>
+<text class="ts" x="85" y="480" text-anchor="middle">COMB</text>
+<text class="ts" x="85" y="498" text-anchor="middle">24 格 · #2192</text>
+<path d="M156.5 382.5h19v19h-19zM156.5 401.5h19v19h-19zM156.5 420.5h19v19h-19zM175.5 382.5h19v19h-19zM175.5 401.5h19v19h-19zM175.5 420.5h19v19h-19zM194.5 401.5h19v19h-19z" fill="var(--color-text-secondary)"/>
+<text class="th" x="185" y="462" text-anchor="middle">⬡ 巢</text>
+<text class="ts" x="185" y="480" text-anchor="middle">HONEYCOMB</text>
+<text class="ts" x="185" y="498" text-anchor="middle">7 格 · #87</text>
+<path d="M258 393h9v9h-9zM258 402h9v9h-9zM258 411h9v9h-9zM258 420h9v9h-9zM267 393h9v9h-9zM267 402h9v9h-9zM267 411h9v9h-9zM267 420h9v9h-9zM276 393h9v9h-9zM276 402h9v9h-9zM276 411h9v9h-9zM276 420h9v9h-9zM285 393h9v9h-9zM285 402h9v9h-9zM285 411h9v9h-9zM285 420h9v9h-9zM294 393h9v9h-9zM294 402h9v9h-9zM294 411h9v9h-9zM294 420h9v9h-9zM303 393h9v9h-9zM303 402h9v9h-9zM303 411h9v9h-9zM303 420h9v9h-9z" fill="var(--color-text-secondary)"/>
+<text class="th" x="285" y="462" text-anchor="middle">› 折</text>
+<text class="ts" x="285" y="480" text-anchor="middle">CHEVRON</text>
+<text class="ts" x="285" y="498" text-anchor="middle">24 格 · #7453</text>
+<path d="M380.5 387h3v3h-3zM380.5 390h3v3h-3zM380.5 393h3v3h-3zM380.5 396h3v3h-3zM380.5 399h3v3h-3zM380.5 402h3v3h-3zM380.5 405h3v3h-3zM380.5 408h3v3h-3zM380.5 411h3v3h-3zM380.5 414h3v3h-3zM380.5 417h3v3h-3zM380.5 420h3v3h-3zM380.5 423h3v3h-3zM380.5 426h3v3h-3zM380.5 429h3v3h-3zM380.5 432h3v3h-3zM383.5 393h3v3h-3zM383.5 402h3v3h-3zM383.5 408h3v3h-3zM383.5 417h3v3h-3zM383.5 429h3v3h-3zM383.5 432h3v3h-3zM386.5 402h3v3h-3zM386.5 417h3v3h-3z" fill="var(--color-text-secondary)"/>
+<text class="th" x="385" y="462" text-anchor="middle">⌘ 符</text>
+<text class="ts" x="385" y="480" text-anchor="middle">RUNE</text>
+<text class="ts" x="385" y="498" text-anchor="middle">24 格 · #407</text>
+<path d="M462.5 420h9v9h-9zM462.5 429h9v9h-9zM471.5 402h9v9h-9zM471.5 411h9v9h-9zM471.5 420h9v9h-9zM471.5 429h9v9h-9zM480.5 384h9v9h-9zM480.5 393h9v9h-9zM480.5 402h9v9h-9zM480.5 411h9v9h-9zM480.5 420h9v9h-9zM480.5 429h9v9h-9zM489.5 402h9v9h-9zM489.5 411h9v9h-9zM489.5 420h9v9h-9zM489.5 429h9v9h-9zM498.5 420h9v9h-9zM498.5 429h9v9h-9z" fill="var(--color-text-secondary)"/>
+<text class="th" x="485" y="462" text-anchor="middle">⌸ 塔</text>
+<text class="ts" x="485" y="480" text-anchor="middle">TOWER</text>
+<text class="ts" x="485" y="498" text-anchor="middle">18 格 · #1115</text>
+<path d="M558 388.5h9v9h-9zM558 397.5h9v9h-9zM558 406.5h9v9h-9zM558 415.5h9v9h-9zM558 424.5h9v9h-9zM567 388.5h9v9h-9zM567 397.5h9v9h-9zM567 406.5h9v9h-9zM567 415.5h9v9h-9zM567 424.5h9v9h-9zM576 388.5h9v9h-9zM576 397.5h9v9h-9zM576 406.5h9v9h-9zM576 415.5h9v9h-9zM576 424.5h9v9h-9zM585 388.5h9v9h-9zM585 397.5h9v9h-9zM585 406.5h9v9h-9zM585 415.5h9v9h-9zM585 424.5h9v9h-9zM594 388.5h9v9h-9zM594 397.5h9v9h-9zM594 406.5h9v9h-9zM594 415.5h9v9h-9zM594 424.5h9v9h-9zM603 388.5h9v9h-9zM603 397.5h9v9h-9zM603 406.5h9v9h-9z" fill="var(--color-text-secondary)"/>
+<text class="th" x="585" y="462" text-anchor="middle">↻ 盘</text>
+<text class="ts" x="585" y="480" text-anchor="middle">COIL</text>
+<text class="ts" x="585" y="498" text-anchor="middle">28 格 · #3595</text>
+</svg>

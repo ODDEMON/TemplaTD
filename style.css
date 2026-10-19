@@ -1,0 +1,1178 @@
+/* TemplaTD · 元件即防事 —— 视觉
+   ------------------------------------------------------------------
+   近黑的底、细亮线、只在稀有度上发光。
+   三条硬要求：
+     1. 六项读数**必须有数字**——只有一根条等于没说。
+     2. 合法落点、选中、尺寸（格数/成本）一眼可辨。
+     3. 发光只服务稀有度，不参与任何读数。 */
+
+:root {
+  --bg: #05070c;
+  --panel: #080c14;
+  --line: #1a2434;
+  --ink: #c8d4e4;
+  --dim: #6b7c93;
+  --hot: #7fd6ff;
+  --gold: #ffcf6b;
+  --bad: #ff6b7a;
+  --okk: #6ee7a8;
+  --path: #2a3346;
+  --wall: #4a5a72;
+  --tow: #7fd6ff;
+  --enemy: #ff8a5c;
+  --r0: #8fa3b8; --r1: #6ee7a8; --r2: #7fd6ff; --r3: #c08cff; --r4: #ffcf6b;
+  /* 打磨层（本版新增）：卡片底、柔和边、焦点环、投影。
+     全部只在这里写死一次——后面所有控件引用它们，不再各写各的色值。 */
+  --card: #0a1019;
+  --card2: #070c14;
+  --line2: #24374d;
+  --dim2: #8497ae;
+  --focus: rgba(127, 214, 255, .55);
+  --sh: 0 1px 0 rgba(255, 255, 255, .03) inset, 0 6px 18px -12px rgba(0, 0, 0, .9);
+  --r: 5px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 14px/1.6 "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+#frame { display: flex; flex-direction: column; height: 100%; }
+
+/* ---------- 顶栏 ---------- */
+header {
+  display: flex; align-items: center; gap: 16px;
+  padding: 10px 16px; border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, #0a1018, #06090f);
+}
+.brand { display: flex; align-items: baseline; gap: 8px; }
+.brand .bt { font-size: 17px; letter-spacing: 3px; color: var(--hot); }
+.brand .bs { font-size: 10px; letter-spacing: 4px; color: var(--dim); }
+#hud { display: flex; flex-wrap: wrap; gap: 14px; flex: 1; }
+#hud .kv b { color: var(--dim); font-weight: 400; margin-right: 5px; }
+#hud .kv { font-variant-numeric: tabular-nums; }
+.tools { display: flex; align-items: center; gap: 6px; }
+.langbar { display: flex; gap: 2px; }
+.lb, .tools > button {
+  background: #0d1420; color: var(--dim); border: 1px solid var(--line);
+  padding: 4px 9px; font-size: 11px; cursor: pointer; border-radius: 3px;
+}
+.lb.on, .tools > button:hover { color: var(--hot); border-color: #24405c; }
+
+/* ---------- 主体 ---------- */
+.body { display: flex; flex: 1; min-height: 0; }
+#rail {
+  width: 92px; flex: none; border-right: 1px solid var(--line);
+  display: flex; flex-direction: column; padding: 8px 0; gap: 2px;
+  background: #06090f;
+}
+.rn {
+  display: flex; align-items: center; gap: 8px; padding: 9px 12px;
+  background: none; border: 0; border-left: 2px solid transparent;
+  color: var(--dim); cursor: pointer; text-align: left; font-size: 13px;
+}
+.rn:hover { color: var(--ink); background: #0c121c; }
+.rn.on { color: var(--hot); border-left-color: var(--hot); background: #0c1622; }
+.rn-n { font-size: 10px; color: #40536b; font-variant-numeric: tabular-nums; }
+.rn-t { flex: 1; }
+
+#main { flex: 1; overflow: auto; min-width: 0; }
+#panel { padding: 16px 18px 40px; }
+.page { max-width: 1500px; }
+
+footer { border-top: 1px solid var(--line); padding: 6px 16px; }
+#ticker { font-size: 12px; color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---------- 通用件 ---------- */
+.mhead { margin-bottom: 12px; }
+.mhead h2 { margin: 0; font-size: 19px; letter-spacing: 2px; }
+.msub { font-size: 10px; letter-spacing: 4px; color: var(--dim); }
+.lead { margin: 6px 0 0; color: var(--dim); font-size: 13px; max-width: 76ch; }
+.subhead { margin: 18px 0 8px; font-size: 13px; color: var(--hot); letter-spacing: 1px; }
+.note { color: var(--dim); font-size: 13px; }
+.dim { color: var(--dim); }
+
+/* 设置页：存档的导出/导入框。等宽字体 + 可横向滚动——
+   那是一段 base64，换行显示比折断看清。 */
+.impbox {
+  flex: 1 1 420px; min-width: 260px; min-height: 52px; resize: vertical;
+  background: #070b12; color: var(--ink); border: 1px solid var(--line);
+  font-family: ui-monospace, Consolas, monospace; font-size: 11px; line-height: 1.5;
+  padding: 6px 8px; white-space: pre-wrap; word-break: break-all;
+}
+.empty { padding: 18px; border: 1px dashed var(--line); color: var(--dim); text-align: center; }
+.statline { display: flex; flex-wrap: wrap; gap: 16px; padding: 8px 0; font-variant-numeric: tabular-nums; }
+.statline .kv b { color: var(--dim); font-weight: 400; margin-right: 5px; }
+.bbar { height: 3px; background: #101825; margin-bottom: 10px; }
+.bbar i { display: block; height: 100%; background: var(--hot); }
+
+.ff { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+.btn {
+  background: #0d1420; border: 1px solid var(--line); color: var(--ink);
+  padding: 6px 14px; font-size: 13px; cursor: pointer; border-radius: 3px;
+}
+.btn:hover { border-color: #2b4a68; }
+.btn.on { border-color: var(--hot); color: var(--hot); }
+.btn.ghost { color: var(--dim); }
+.btn[disabled] { opacity: .4; cursor: default; }
+.btn.x { padding: 1px 6px; font-size: 11px; }
+.tools { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0; }
+.tools .sep { width: 1px; background: var(--line); margin: 0 4px; }
+.tg { font-size: 11px; padding: 1px 6px; border-radius: 2px; background: #16202e; }
+.tg.bad { background: #2a1418; color: var(--bad); }
+.pager { display: flex; align-items: center; gap: 10px; margin: 10px 0; }
+.pgi { font-size: 12px; color: var(--dim); font-variant-numeric: tabular-nums; }
+
+/* ---------- 六项读数：条 + 数字 ---------- */
+.esrow, .esgrid { display: inline-flex; flex-wrap: wrap; gap: 4px 10px; }
+.esc { display: inline-flex; align-items: center; gap: 4px; }
+.esc em { font-style: normal; font-size: 11px; color: var(--dim); }
+.esb {
+  display: inline-block; width: 34px; height: 5px; background: #101825;
+  border-radius: 2px; overflow: hidden; vertical-align: middle;
+}
+.esb i { display: block; height: 100%; background: linear-gradient(90deg, #2b6c8f, var(--hot)); }
+.esn { font-size: 11px; font-variant-numeric: tabular-nums; color: var(--ink); }
+
+/* ---------- 建造台 ---------- */
+.fcols { display: flex; gap: 18px; align-items: flex-start; flex-wrap: wrap; }
+.fleft { flex: 1 1 520px; min-width: 340px; }
+.fright { flex: 0 0 auto; }
+/* 战场右栏：塔详情。与网格并排，点开它不把战场挤出视野；
+   容器不够宽时 flex-wrap 会把它折到网格下面。 */
+.bside { flex: 1 1 340px; min-width: 300px; max-width: 480px; }
+.plist { display: grid; grid-template-columns: repeat(auto-fill, minmax(228px, 1fr)); gap: 8px; }
+.pcard {
+  border: 1px solid var(--line); background: var(--panel); padding: 8px 10px;
+  cursor: pointer; border-radius: 4px;
+}
+.pcard:hover { border-color: #2b4a68; }
+.pcard.sel { border-color: var(--hot); box-shadow: 0 0 0 1px var(--hot) inset; }
+.pcard.dead { opacity: .45; }
+.pchead { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.pchead b { font-size: 12px; font-variant-numeric: tabular-nums; }
+.pform { font-size: 12px; color: var(--ink); }
+.prar { font-size: 10px; color: var(--dim); margin-left: auto; }
+.pcmini { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+.mg { display: inline-grid; grid-template-columns: repeat(var(--w), 5px); gap: 1px; }
+.mg i { width: 5px; height: 5px; background: #101825; }
+.mg i.on { background: var(--hot); }
+.pces { margin: 4px 0; }
+.pcstat { font-size: 12px; color: var(--dim); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.pcfoot { display: flex; gap: 4px; margin-top: 5px; }
+.tr { font-size: 12px; color: var(--gold); }
+.pcard.r0 { border-left: 2px solid var(--r0); }
+.pcard.r1 { border-left: 2px solid var(--r1); }
+.pcard.r2 { border-left: 2px solid var(--r2); }
+.pcard.r3 { border-left: 2px solid var(--r3); }
+.pcard.r4 { border-left: 2px solid var(--r4); box-shadow: 0 0 14px -6px var(--r4); }
+
+.selinfo { font-size: 12px; color: var(--dim); margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+.bgrid { display: grid; grid-template-columns: repeat(var(--cols, 22), 24px); gap: 1px; }
+/* position: relative 是**必须的**：格子里的塔/敌人是绝对定位的 SVG，
+   父级不定位的话它们会一路找到 .bwrap，把形状摊满整张棋盘。
+   这个错只有真浏览器看得见（jsdom 量不出布局），截图里是一大片蓝色形状。 */
+.cell { width: 24px; height: 24px; background: #0a0f18; border: 1px solid #0e1520; position: relative; overflow: hidden; }
+.cell.p { background: var(--path); }
+.cell.t { background: #123048; box-shadow: 0 0 0 1px var(--tow) inset; }
+.cell.w { background: #2a3346; box-shadow: 0 0 0 1px var(--wall) inset; }
+.cell.ok { box-shadow: 0 0 0 1px var(--okk) inset; cursor: pointer; }
+.cell.gok { background: #1d5f42; }
+.cell.gno { background: #5f2130; }
+.cell.e { position: relative; }
+.cell.e i { position: absolute; left: 0; bottom: 0; height: 2px; background: var(--enemy); }
+
+/* ---------- 战场上的图形：塔画自己的形状，敌人各有一个多边形 ----------
+   旧版这两个位置是「塔」与「兵/冲/甲/灵/首」五个汉字——玩家读到的是
+   标签，不是形状。现在 fill 按稀有度走（与工坊 / 花园同一套色），
+   所以「这座塔是华档的十字」在战场上一眼可辨，不必点开详情。 */
+.cell .fig, .cell .efig { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.cell .fig rect { fill: var(--r0); stroke: rgba(4, 10, 18, .85); stroke-width: .1; }
+.cell .fig.r1 rect { fill: var(--r1); }
+.cell .fig.r2 rect { fill: var(--r2); }
+.cell .fig.r3 rect { fill: var(--r3); }
+.cell .fig.r4 rect { fill: var(--r4); }
+.cell .efig polygon, .cell .efig rect {
+  fill: var(--enemy); stroke: rgba(4, 10, 18, .9); stroke-width: .8;
+}
+.cell.e .efig { filter: drop-shadow(0 0 2px rgba(255, 92, 122, .45)); }
+
+/* ---------- 护盾：环 + 盾条 ----------
+   盾还在就画一圈虚线环（重甲与首领，第 8 波起）。盾条走顶上，
+   血条走底下——一眼分得开「还剩多少血」与「还剩多少盾」。
+   环的颜色与盾条同色，预言里、战场上、详情里都是这一种蓝。 */
+.cell .esh { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.cell .esh circle { stroke: var(--r2); opacity: .95; }
+.cell.e i.shbar { bottom: auto; top: 0; background: var(--r2); }
+.wvprev { position: relative; }
+.wvprev .esh { position: absolute; left: 0; top: 0; width: 16px; height: 16px; }
+.wvprev .esh circle { stroke: var(--r2); opacity: .9; }
+
+/* ---------- 装配台：模块卡与两栏 ----------
+   两栏复用工坊的 .fcols；列表复用军械库的 .vtable/.vrow（点选加 .sel）。
+   模块卡是这一页的主角：相性（吃哪项读数、这座塔是多少）、
+   效果预览（装配前后的属性差，真算的）、装配钮——三件事一张卡。 */
+.fcol-list { flex: 0 0 380px; min-width: 300px; }
+.fcol-detail { flex: 1 1 420px; min-width: 320px; }
+.vrow.sel { outline: 1px solid var(--gold); cursor: pointer; }
+.vrow[data-act] { cursor: pointer; }
+.bcards { display: flex; gap: 10px; flex-wrap: wrap; margin: 8px 0 4px; }
+.bcard {
+  border: 1px solid var(--line); background: #070b12; padding: 8px 10px;
+  display: flex; flex-direction: column; gap: 6px; flex: 1 1 200px; min-width: 190px;
+}
+.bcard.on { border-color: var(--gold); }
+.bcard .bch { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.bcard .bch b { color: var(--ink); font-size: 13px; }
+.bcard .bch em { font-style: normal; font-size: 11px; color: var(--r2); white-space: nowrap; }
+.bcard .bcd { font-size: 12px; color: var(--dim); }
+.bcard .bcp { font-size: 12px; color: var(--gold); font-variant-numeric: tabular-nums; }
+.bcard .btn { align-self: flex-start; }
+
+/* 塔详情与休整列表里的大号图形 */
+.handfig.big .fig { width: 44px; height: 44px; }
+.handfig.big .fig rect { stroke-width: .07; }
+.tfig { display: inline-flex; width: 18px; height: 18px; flex: 0 0 18px; }
+.tfig .fig { width: 100%; height: 100%; }
+.tfig .fig rect { stroke-width: .12; }
+.ttype {
+  font-size: 11px; color: var(--dim); border: 1px solid var(--line);
+  padding: 1px 6px; border-radius: 2px; white-space: nowrap;
+}
+
+/* 下一波预告：来的是什么形状、来几只 */
+.wvprev { display: inline-flex; align-items: center; gap: 3px; margin-right: 10px; }
+.wvprev .efig { width: 16px; height: 16px; }
+.wvprev b { font-size: 12px; font-variant-numeric: tabular-nums; }
+.wvprev .efig polygon, .wvprev .efig rect { fill: var(--dim); stroke: none; }
+
+/* 挑选条：deploy / battle / rest 三个相位共用 */
+.pickbar {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 5px;
+  padding: 7px 9px; margin-bottom: 8px;
+  border: 1px solid var(--line); background: #0a1119;
+}
+.pickbar .pbl { font-size: 12px; color: var(--ink); margin-right: 3px; }
+.pickbar .pbr { margin-left: auto; font-variant-numeric: tabular-nums; }
+
+/* 塔条：战斗中选一座塔打开详情（图形 + 编号 + 等级）。
+   与挑选条同一副骨架——两条并排摆着，读起来是「补一座 / 看现有的」。 */
+.twbar .btn { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; font-size: 12px; }
+.twbar .btn .tfig { margin: 0 -1px; }
+.twbar .btn .rv { font-style: normal; color: inherit; opacity: .7; }
+
+.dlist { display: flex; flex-direction: column; gap: 2px; margin-top: 10px; max-width: 340px; }
+.drow { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--dim); }
+
+/* ---------- 元件库 ---------- */
+.ltable { display: flex; flex-direction: column; gap: 2px; }
+.lrow {
+  display: grid; grid-template-columns: 62px 66px 88px 92px 1fr 300px;
+  gap: 10px; align-items: center; padding: 5px 8px;
+  border-left: 2px solid transparent; background: #070b12; font-size: 12px;
+}
+.lrow.r1 { border-left-color: var(--r1); }
+.lrow.r2 { border-left-color: var(--r2); }
+.lrow.r3 { border-left-color: var(--r3); }
+.lrow.r4 { border-left-color: var(--r4); }
+.ls { font-variant-numeric: tabular-nums; color: var(--dim); }
+.ln, .lt { color: var(--dim); font-variant-numeric: tabular-nums; }
+
+/* ---------- 成就 ---------- */
+.arow {
+  display: grid; grid-template-columns: 22px 190px 1fr 240px 180px;
+  gap: 12px; align-items: center; padding: 9px 8px;
+  border-bottom: 1px solid #0e1520; font-size: 12px;
+}
+.arow.got .amark { color: var(--gold); }
+.amark { color: #2c3a4e; }
+.an b { display: block; font-size: 13px; }
+.an em { font-style: normal; font-size: 10px; letter-spacing: 2px; color: var(--dim); }
+.ad { color: var(--dim); }
+.ap { color: var(--hot); }
+.ag { color: var(--gold); font-size: 11px; }
+
+/* ---------- 战绩（图鉴页最后一张表） ---------- */
+.rtable { display: flex; flex-direction: column; gap: 2px; }
+.rrow {
+  display: grid; grid-template-columns: 30px 64px 64px 64px 1fr 118px 92px;
+  gap: 10px; padding: 5px 8px; background: #070b12; font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.rrow.won .rw { color: var(--okk); }
+.rw { color: var(--bad); font-weight: 700; }
+.rd { color: var(--dim); }
+.loglist { display: flex; flex-direction: column; gap: 1px; }
+.lrow2 { font-size: 12px; color: var(--dim); padding: 2px 0; }
+
+/* ---------- 图鉴 ---------- */
+.ctable { display: flex; flex-direction: column; gap: 2px; }
+.crow {
+  display: grid; grid-template-columns: 130px 1fr; gap: 12px;
+  padding: 5px 8px; background: #070b12; font-size: 12px;
+}
+.crow b { color: var(--hot); font-weight: 500; }
+.crow span { color: var(--dim); }
+/* 三格变体：名字 · 价格/档位 · 内容。战况的倍率与重塑的花费走它——
+   价格是这一页的主角之一，给它一个窄格和金色，才不至于混进正文里。 */
+.crow.c3 { grid-template-columns: 128px 96px 1fr; }
+.crow .cv { color: var(--gold); font-variant-numeric: tabular-nums; }
+/* 图鉴里每一种敌人的「解」独占一行：它比上面那行数值长，
+   挤在同一格里会变成两个都读不完。 */
+.crow i {
+  grid-column: 1 / -1; font-style: normal; font-size: 11px;
+  color: #6f8098; line-height: 1.5;
+}
+
+/* ---------- 休整期升级 ---------- */
+.tlist { display: flex; flex-direction: column; gap: 2px; }
+.trow {
+  display: grid; grid-template-columns: 130px 250px 80px 120px;
+  gap: 12px; align-items: center; padding: 6px 8px; background: #070b12; font-size: 12px;
+}
+.tn { color: var(--ink); }
+.tp, .tk { color: var(--dim); font-variant-numeric: tabular-nums; }
+.unlock { margin: 10px 0; padding: 8px 12px; border: 1px solid #3a2f14; background: #14100a; color: var(--gold); }
+.unlock b { margin: 0 4px; }
+
+/* ---------- 图形工坊（本版新增） ----------
+   与战场同一套格子语言（.cell 复用），只是棋盘更小、
+   格里的颜色跟着稀有度走——图形系统与塔防系统画风同源。 */
+.wgrid { display: grid; grid-template-columns: repeat(var(--cols, 10), 26px); gap: 1px; }
+.wgrid .cell { width: 26px; height: 26px; position: relative; }
+.wgrid .cell.g0 { background: #16202e; box-shadow: 0 0 0 1px var(--r0) inset; }
+.wgrid .cell.g1 { background: #12291f; box-shadow: 0 0 0 1px var(--r1) inset; }
+.wgrid .cell.g2 { background: #102636; box-shadow: 0 0 0 1px var(--r2) inset; }
+.wgrid .cell.g3 { background: #1d1530; box-shadow: 0 0 0 1px var(--r3) inset; }
+.wgrid .cell.g4 { background: #2a2110; box-shadow: 0 0 0 1px var(--r4) inset; }
+.wgrid .cell u {
+  text-decoration: none; font-size: 9px; color: var(--dim);
+  display: block; text-align: center; line-height: 24px;
+}
+.wgrid .cell.ok { cursor: pointer; }
+.wgrid .cell.gno { box-shadow: 0 0 0 1px var(--bad) inset; }
+
+/* 提交预览：整具图形此刻的读数与炮塔属性 */
+.pv { margin-top: 12px; padding: 10px 12px; background: #070b12; border: 1px solid var(--line); }
+.pv.empty { border-style: dashed; }
+.pvhead { display: flex; flex-wrap: wrap; gap: 14px; align-items: baseline; }
+.pvhead b { color: var(--hot); letter-spacing: 1px; }
+.pves { margin-top: 6px; }
+.pvstat { margin-top: 6px; font-size: 12px; color: var(--ink); }
+.pvstat.warn { color: var(--bad); }
+
+/* 六类加成各占一行：旧版压成两行文字，正好把「五类恒为 0」藏住了。
+   摆开之后空的那几行自己会说话——所以 0 的那一行要看得见，只是暗下去。 */
+.pvkinds { margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+.pkrow {
+  display: grid; grid-template-columns: 96px 1fr 62px;
+  gap: 10px; align-items: center; font-size: 12px;
+}
+.pkrow em { color: var(--dim); font-style: normal; letter-spacing: 1px; }
+.pkrow b { color: var(--hot); font-weight: 500; text-align: right; font-variant-numeric: tabular-nums; }
+.pkrow.zero em, .pkrow.zero b { color: #3a4a5e; }
+.pkb {
+  display: block; height: 6px; background: #0d1420;
+  border: 1px solid var(--line); position: relative;
+}
+.pkb i { display: block; height: 100%; background: var(--hot); opacity: .75; }
+.pkrow.zero .pkb i { background: #2a3648; opacity: .5; }
+
+/* ---------- 军械库 ---------- */
+.vtable { display: flex; flex-direction: column; gap: 3px; }
+.vrow {
+  display: grid; grid-template-columns: 74px 150px 120px 1fr 250px 150px;
+  gap: 10px; align-items: center; padding: 6px 8px; background: #070b12;
+  font-size: 12px; border-left: 2px solid var(--r0);
+}
+.vrow.r1 { border-left-color: var(--r1); }
+.vrow.r2 { border-left-color: var(--r2); }
+.vrow.r3 { border-left-color: var(--r3); }
+.vrow.r4 { border-left-color: var(--r4); }
+.vrow .vs { color: var(--hot); font-variant-numeric: tabular-nums; }
+.vrow .vf, .vrow .vm { color: var(--dim); }
+.vrow .vt { color: var(--ink); font-variant-numeric: tabular-nums; }
+.vrow .vc { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+.vrow .vc b { color: var(--gold); }
+
+/* ---------- 工坊的组装台版式（本版二改：照 CONFIGURA 的主界面与库模式） ---------- */
+.asm { display: flex; gap: 18px; align-items: flex-start; flex-wrap: wrap; }
+.asml { flex: 1 1 480px; min-width: 360px; }
+.asmr { flex: 1 1 340px; max-width: 560px; display: flex; flex-direction: column; gap: 8px; }
+.sub {
+  margin: 10px 0 4px; font-size: 12px; letter-spacing: 2px;
+  color: var(--dim); border-bottom: 1px solid var(--line); padding-bottom: 3px;
+}
+.msg { min-height: 18px; font-size: 12px; color: var(--hot); }
+.msg:empty { display: none; }
+.sheetwrap { display: inline-block; padding: 8px; background: #06090f; border: 1px solid var(--line); }
+.wgrid .cell.selc { box-shadow: 0 0 0 1px var(--hot) inset, 0 0 8px -2px var(--hot); }
+.pvbox {
+  min-height: 40px; margin: 10px 0; padding: 8px 10px;
+  border: 1px dashed var(--line); font-size: 12px; color: var(--dim);
+}
+.pvbox:empty { display: none; }
+.pvbox b { color: var(--hot); margin-right: 10px; }
+.pvbox .no { color: var(--bad); margin-left: 10px; }
+.pvbox .pd, .pvbox .pe { margin-right: 12px; }
+
+/* 手上 / 选中的格：组装台的 cinf 模式 */
+.cinf { padding: 8px 10px; background: #070b12; border: 1px solid var(--line); }
+.cih { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.cih b { color: var(--hot); font-variant-numeric: tabular-nums; }
+.rv { font-size: 11px; color: var(--dim); }
+.rv.r0 { color: var(--r0); } .rv.r1 { color: var(--r1); } .rv.r2 { color: var(--r2); }
+.rv.r3 { color: var(--r3); } .rv.r4 { color: var(--r4); }
+.fam { font-size: 12px; color: var(--ink); }
+.handfig { margin: 8px 0; line-height: 0; }
+.mg.big { grid-template-columns: repeat(var(--w), 12px); gap: 2px; }
+.mg.big i { width: 12px; height: 12px; }
+.mg.big i.on { background: var(--hot); box-shadow: 0 0 6px -1px var(--hot); }
+.btn.danger { color: var(--bad); border-color: #4a2230; }
+.btn.danger:hover { color: var(--bad); border-color: var(--bad); }
+.btn.go { color: var(--gold); border-color: #3a2f14; }
+.btn.go:hover { border-color: var(--gold); box-shadow: 0 0 10px -4px var(--gold); }
+.btn.small { padding: 2px 8px; font-size: 11px; }
+.btn.chip { padding: 2px 8px; font-size: 11px; }
+.fl { font-size: 11px; color: var(--dim); margin-right: 4px; }
+.ff .fl { align-self: center; }
+.ff { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+
+/* 库：库页的行模式 */
+.lrs { display: flex; flex-direction: column; gap: 3px; }
+.lrrow {
+  display: grid; grid-template-columns: 110px 1fr auto;
+  gap: 10px; align-items: center; padding: 5px 8px;
+  background: #070b12; border-left: 2px solid var(--r0);
+}
+.lrrow.r1 { border-left-color: var(--r1); }
+.lrrow.r2 { border-left-color: var(--r2); }
+.lrrow.r3 { border-left-color: var(--r3); }
+.lrrow.r4 { border-left-color: var(--r4); }
+.lrrow .lrt { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; font-size: 12px; }
+.lrrow .lrt b { color: var(--hot); font-variant-numeric: tabular-nums; }
+.lrrow .lrt em { color: var(--dim); font-style: normal; }
+.lra { display: flex; gap: 6px; }
+
+/* ---------- 塔防强化：覆盖层与弹道 ---------- */
+.bwrap { position: relative; display: inline-block; }
+.bovl { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
+.bovl .bm.direct { stroke: var(--tow); stroke-width: 1.5; opacity: .85; }
+.bovl .bm.chain { stroke: var(--gold); stroke-width: 1; opacity: .7; stroke-dasharray: 3 2; }
+.bovl .bm.splash { fill: none; stroke: var(--enemy); stroke-width: 1; opacity: .6; }
+.bovl .rng { fill: rgba(127, 214, 255, .05); stroke: var(--tow); stroke-width: 1; stroke-dasharray: 4 3; }
+/* 战场格上不再有字：塔是它的形状，敌人是它的多边形。
+   `.cell.t u` 那条旧规则（那个「塔」字）一并删掉——留着只会
+   让人以为格子中间还能塞字。 */
+
+/* ---------- 库：抽取结果 ---------- */
+.dres { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+.dr {
+  font-size: 11px; padding: 3px 8px; background: #0b1220;
+  border: 1px solid var(--line); border-left: 2px solid var(--r0);
+  font-variant-numeric: tabular-nums;
+}
+.dr.r1 { border-left-color: var(--r1); } .dr.r2 { border-left-color: var(--r2); }
+.dr.r3 { border-left-color: var(--r3); box-shadow: 0 0 8px -3px var(--r3); }
+.dr.r4 { border-left-color: var(--r4); box-shadow: 0 0 12px -3px var(--r4); }
+.no { color: var(--bad); }
+.pl { font-size: 11px; color: var(--dim); }
+
+/* ---------- 测量页：照搬 CONFIGURA 的质变六项 ---------- */
+.es4s { display: flex; flex-direction: column; gap: 4px; }
+.es4 { background: #070b12; border: 1px solid var(--line); }
+.es4.open { border-color: #24405c; }
+.es4h {
+  display: grid; grid-template-columns: 90px 1fr 150px 130px 60px 40px;
+  gap: 10px; align-items: center; width: 100%; padding: 8px 10px;
+  background: none; border: 0; color: var(--ink); cursor: pointer; text-align: left;
+}
+.es4.tot .es4h { cursor: default; }
+.e4t { color: var(--hot); font-size: 13px; }
+.e4d { color: var(--dim); font-size: 12px; }
+.e4ask { color: var(--dim); font-size: 11px; }
+.e4ask b { color: var(--gold); font-weight: 500; margin-right: 4px; }
+.e4b { display: inline-block; width: 100%; height: 6px; background: #101825; position: relative; }
+.e4b i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--hot); }
+.e4v { font-variant-numeric: tabular-nums; text-align: right; }
+.esg { font-size: 11px; text-align: center; }
+.esg.g0 { color: #4b5a6e; } .esg.g1 { color: #8fa3b8; } .esg.g2 { color: #6ee7a8; }
+.esg.g3 { color: var(--tow); } .esg.g4 { color: var(--r4); }
+.e4p { padding: 4px 12px 10px; border-top: 1px solid var(--line); }
+.p4 {
+  display: grid; grid-template-columns: 40px 170px 70px 1fr 60px;
+  gap: 10px; align-items: center; padding: 5px 0; font-size: 12px;
+  border-bottom: 1px dashed #131c2a;
+}
+.p4i { color: #40536b; }
+.p4t { color: var(--ink); }
+.p4w { color: var(--dim); }
+.p4b { display: inline-block; height: 5px; background: #101825; position: relative; }
+.p4b i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--gold); }
+.p4v { font-variant-numeric: tabular-nums; text-align: right; }
+.p4n { color: var(--dim); font-size: 11px; }
+.mcols { display: flex; flex-wrap: wrap; gap: 18px; }
+.mcols .col { flex: 1 1 320px; }
+.tally { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 5px 8px; background: #070b12; font-size: 12px; margin-bottom: 3px; }
+.tally .tl { color: var(--dim); margin-right: 4px; }
+.tally b { margin-right: 8px; font-variant-numeric: tabular-nums; }
+
+/* ---------- 花园 ---------- */
+.wgrid.garden { grid-template-columns: repeat(var(--cols, 12), 24px); }
+.wgrid.garden .cell { width: 24px; height: 24px; }
+/* 离根的件：出力折半，这道折半必须看得见。
+   为什么用虚线角标而不是换颜色：花园区里颜色是**稀有度**的语言，
+   抢了它会让人以为这是第六档稀有度。 */
+.wgrid.garden .cell.orph::after {
+  content: ''; position: absolute; left: 3px; top: 3px;
+  width: 5px; height: 5px; border-top: 2px solid var(--bad);
+  border-left: 2px solid var(--bad);
+}
+
+
+/* ================================================================
+   战场阵型浮层（bx-*）
+   「读数即裁判」的可见面：六项读数接管十二个标量，
+   峰值那一项同时抬高一格敌血。指针宇宙删掉之后，
+   这一块面板接管了它原来的位置——但每一个数字都能指着来源。
+   ================================================================ */
+.bx-flux {
+  margin: 10px 0; padding: 10px 12px;
+  border: 1px solid var(--line); border-left: 3px solid var(--hot);
+  background: linear-gradient(180deg, rgba(11, 18, 28, .9), rgba(7, 11, 18, .9));
+}
+.bx-fxh { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.bx-fxh b { color: var(--hot); letter-spacing: 2px; font-size: 12px; }
+.bx-fxh em { font-style: normal; color: #4d627a; font-size: 10px; letter-spacing: 1px; }
+.bx-fxsig { margin-left: auto; font-size: 10px; color: #40536b; font-variant-numeric: tabular-nums; }
+
+.bx-fxv i { font-style: normal; color: #3c4f65; font-size: 10px; }
+
+.bx-fxrow { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.bx-fxv { display: flex; align-items: baseline; gap: 4px; font-size: 11px; flex-wrap: wrap; }
+.bx-fxv em { font-style: normal; color: #4d627a; font-size: 10px; }
+.bx-fxv b { font-weight: 500; color: #6f88a6; font-variant-numeric: tabular-nums; }
+.bx-fxv.up b { color: var(--okk); }
+.bx-fxv.dn b { color: var(--gold); }
+
+.bx-fxact { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; padding-top: 8px; border-top: 1px solid #131c29; }
+.bx-fxa {
+  display: inline-flex; align-items: baseline; gap: 5px;
+  padding: 2px 7px; border: 1px solid #16202e; background: #090f18;
+  font-size: 10px; cursor: help;
+}
+.bx-fxa i { font-style: normal; color: #3c4f65; }
+.bx-fxa b { color: var(--ink); font-weight: 400; }
+.bx-fxa em { font-style: normal; color: #4d627a; }
+.bx-fxa s { text-decoration: none; font-variant-numeric: tabular-nums; }
+.bx-fxa s.up { color: var(--okk); }
+.bx-fxa s.dn { color: var(--gold); }
+.bx-fxa:hover { border-color: var(--hot); background: #0c1622; }
+
+/* ---------- 质变口（3 / 6 / 9 级那道口子） ----------
+   三个候选由这座塔自己的读数排序得出，所以这里不画成「三张一样的卡」：
+   按钮一样大，说明文字摊开——玩家要能读完再选，选完焊死。 */
+.mutbox {
+  margin: 10px 0; padding: 10px 12px;
+  border: 1px solid var(--line); border-left: 3px solid var(--gold);
+  background: linear-gradient(180deg, rgba(11, 18, 28, .9), rgba(7, 11, 18, .9));
+}
+.mutbox > b { display: block; color: var(--gold); letter-spacing: 1px; font-size: 12px; }
+.mutbox > .dim { display: block; margin: 4px 0 8px; font-size: 10px; }
+.mutrow { display: flex; align-items: baseline; gap: 10px; margin-top: 6px; }
+.mutrow .mud { font-size: 10px; color: #5c7590; }
+
+/* ---------- 商店：抽取概率公示 ----------
+   五档一条线。抬过档的那一档加一圈高亮 + 后缀「+x%」——
+   不是为了好看，是为了让玩家**看见自己买到了什么**。
+   注意 i 条要有最小可见宽度：殿档只有 1.3%，纯按比例画就是一条看不见的线，
+   这里用 min-width 兜底，让「很小」仍然看得见，但不至于夸张成「不小」。 */
+.od { display: flex; gap: 6px; margin-top: 10px; }
+.odc {
+  position: relative; flex: 1 1 0; min-width: 0;
+  display: flex; flex-direction: column; gap: 3px;
+  padding: 6px 8px; border: 1px solid var(--line); background: #090f18;
+  overflow: hidden;
+}
+.odc em { font-style: normal; font-size: 11px; color: var(--dim); }
+.odc b { font-size: 14px; font-variant-numeric: tabular-nums; color: var(--ink); }
+.odc i {
+  display: block; height: 3px; min-width: 2px; background: var(--r0);
+  margin-top: 1px; max-width: 100%;
+}
+.odc.r1 i { background: var(--r1); }
+.odc.r2 i { background: var(--r2); }
+.odc.r3 i { background: var(--r3); }
+.odc.r4 i { background: var(--r4); }
+.odc.r1 b { color: var(--r1); }
+.odc.r2 b { color: var(--r2); }
+.odc.r3 b { color: var(--r3); }
+.odc.r4 b { color: var(--r4); }
+/* 被抬过档：加一条亮边，并挂出「比基础高多少」 */
+.odc.moved { border-color: var(--okk); box-shadow: 0 0 10px -5px var(--okk) inset; }
+.odc s.up {
+  text-decoration: none; font-size: 10px; color: var(--okk);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 军械库：提交流水 ----------
+   已淘汰的那几行不隐藏——它们是底账。只是把对比度压下去一点，
+   让「还在库」的那几行先跳出来。 */
+.vrow.gone { opacity: .62; }
+.vrow.gone .vs { color: var(--dim); }
+.tg.ok { background: #10291d; color: var(--okk); }
+.tg.x { background: #241419; color: var(--bad); }
+
+/* 升级行：买过的层级给一道左侧渐深，一眼看出哪条投得多 */
+.vrow.u0 { border-left: 2px solid #1b2735; }
+.vrow.u1, .vrow.u2 { border-left: 2px solid #2c4256; }
+.vrow.u3, .vrow.u4 { border-left: 2px solid var(--r2); }
+.vrow.u5, .vrow.u6, .vrow.u7 { border-left: 2px solid var(--r4); }
+
+/* ---------- 动效降级 ----------
+   「看不懂」是目的，「看着难受」是事故。所以动效全部可关。 */
+@media (prefers-reduced-motion: reduce) {
+  .cell, .bm { transition: none; }
+}
+
+/* ==================================================================
+   打磨层（本版）：把「能用」抬到「拿得出手」
+   ------------------------------------------------------------------
+   原则只有三条，别的都是它们的结果：
+     1. **一个东西一个家**：颜色、圆角、投影、焦点环都收在 :root，
+        控件只引用不重写。想整体换气质，改那一处就够。
+     2. **层次靠深度，不靠更多颜色**：卡片用一层极淡的渐变 + 一道柔边，
+        不用第二个强调色——这一部的颜色预算全留给稀有度。
+     3. **可点的地方看得出来**：hover 抬手、active 压下、
+        键盘 focus 有环（鼠标点击不显示环）。这三件是「像成品」的底线。
+   ================================================================== */
+
+::selection { background: rgba(127, 214, 255, .22); color: #eaf4ff; }
+
+body {
+  font-family: "Inter", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- 顶栏：一条更实的横梁 ---------- */
+header {
+  background: linear-gradient(180deg, #0b111b 0%, #06090f 100%);
+  box-shadow: 0 1px 0 rgba(127, 214, 255, .06), 0 12px 24px -22px #000;
+  position: relative; z-index: 5;
+}
+.brand .bt { text-shadow: 0 0 18px rgba(127, 214, 255, .35); }
+.brand .bs { opacity: .85; }
+#hud { align-items: center; }
+#hud .kv {
+  background: linear-gradient(180deg, rgba(127, 214, 255, .05), rgba(127, 214, 255, 0));
+  border: 1px solid var(--line); border-radius: var(--r);
+  padding: 3px 9px; font-size: 12.5px;
+}
+#hud .kv b { color: var(--dim2); font-size: 11px; letter-spacing: .4px; }
+
+/* ---------- 导航：一道亮边标出「你在哪」 ---------- */
+#rail { gap: 1px; }
+.rn {
+  position: relative; border: 0; background: none; color: var(--dim2);
+  transition: color .12s, background .12s;
+}
+.rn:hover { color: var(--ink); background: rgba(127, 214, 255, .05); }
+.rn.on {
+  color: var(--hot);
+  background: linear-gradient(90deg, rgba(127, 214, 255, .13), rgba(127, 214, 255, 0));
+}
+.rn.on::before {
+  content: ''; position: absolute; left: 0; top: 3px; bottom: 3px; width: 2px;
+  background: var(--hot); box-shadow: 0 0 10px var(--hot);
+}
+.rn-n { font-variant-numeric: tabular-nums; }
+
+/* ---------- 按钮：抬手 / 压下 / 焦点环 ---------- */
+.btn {
+  border-radius: var(--r); cursor: pointer;
+  transition: transform .08s, box-shadow .12s, border-color .12s, color .12s, background .12s;
+}
+.btn:hover:not(:disabled) { transform: translateY(-1px); border-color: var(--line2); color: #eaf4ff; }
+.btn:active:not(:disabled) { transform: translateY(0); box-shadow: 0 2px 8px -6px #000 inset; }
+.btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.btn:disabled { opacity: .42; cursor: not-allowed; }
+.btn.on { box-shadow: 0 0 0 1px rgba(127, 214, 255, .35) inset, 0 6px 18px -14px var(--hot); }
+.btn.go { box-shadow: 0 6px 18px -14px var(--gold); }
+.btn.x { color: var(--bad); }
+.btn.x:hover:not(:disabled) { border-color: rgba(255, 107, 122, .5); }
+
+.tools > button { border-radius: var(--r); transition: color .12s, border-color .12s; }
+.tools > button:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+
+/* ---------- 卡片：一层极淡的渐变 + 一道柔边 ---------- */
+.pv, .cinf, .bcard, .msg, .unlock, .dres, .empty, .lrow2 {
+  background: linear-gradient(180deg, var(--card), var(--card2));
+  border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--sh);
+}
+.pv { padding: 12px 14px; }
+.cinf { padding: 12px 14px; }
+.bcard { border-radius: var(--r); transition: border-color .12s, transform .08s; }
+.bcard:hover { border-color: var(--line2); transform: translateY(-1px); }
+.bcard.on { box-shadow: 0 0 0 1px rgba(255, 207, 107, .35) inset, var(--sh); }
+.empty { color: var(--dim2); padding: 18px 14px; text-align: center; }
+
+/* ---------- 表格行：斑马 + 悬停 ---------- */
+.vrow, .rrow, .trow { border-radius: var(--r); transition: background .1s, border-color .1s; }
+.vrow:hover, .rrow:hover, .trow:hover { background: rgba(127, 214, 255, .045); }
+.vrow.u1, .vrow.u2, .vrow.u3, .vrow.u4 { background: rgba(127, 214, 255, .035); }
+.vrow.sel { background: rgba(255, 207, 107, .07); }
+
+/* ---------- 小节标题：左边一道亮条 ---------- */
+.subhead {
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid var(--line); padding-bottom: 5px;
+}
+.subhead::before { content: ''; width: 3px; height: 12px; background: var(--hot); border-radius: 2px; }
+.mhead h2 { letter-spacing: 1px; }
+.lead { color: var(--dim2); max-width: 92ch; }
+
+/* ---------- 页脚落款 ---------- */
+footer { display: flex; align-items: center; gap: 12px; }
+.sign { font-size: 11px; color: var(--dim); letter-spacing: .5px; white-space: nowrap; opacity: .75; }
+
+/* ---------- 滚动条：别让默认白条毁掉整页 ---------- */
+#main, .vtable, .loglist { scrollbar-width: thin; scrollbar-color: #223346 transparent; }
+#main::-webkit-scrollbar, .vtable::-webkit-scrollbar { width: 10px; height: 10px; }
+#main::-webkit-scrollbar-thumb {
+  background: #1b2636; border: 3px solid transparent; border-radius: 8px; background-clip: content-box;
+}
+#main::-webkit-scrollbar-thumb:hover { background: #2b3d55; background-clip: content-box; }
+#main::-webkit-scrollbar-track { background: transparent; }
+
+@media (max-width: 860px) {
+  #rail { width: 76px; }
+  #panel { padding: 12px 12px 32px; }
+  .sign { display: none; }
+}
+
+/* ---------- 战况条：难度是一张一张勾的 ----------
+   每条右边那个 +18% 就是它的价格，所以价格与名字必须同排、同字号——
+   「勾一条涨一点」这件事要看得见，不需要去别处查表。 */
+.condbar .btn em { font-style: normal; color: var(--gold); margin-left: 4px; font-size: 11px; }
+.condbar .btn.on { border-color: var(--gold); }
+
+/* ---------- 战备指令：三张卡，每张都有得有付 ---------- */
+.ocards { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0; }
+.ocard {
+  flex: 1 1 220px; max-width: 300px; padding: 10px 12px;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--sh);
+}
+.ocard .och { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+.ocard .och b { color: var(--hot); letter-spacing: 1px; }
+.ocard .orow { display: flex; gap: 8px; font-size: 12px; line-height: 1.5; }
+.ocard .orow em {
+  font-style: normal; flex: 0 0 26px; font-size: 11px; letter-spacing: 1px;
+  color: var(--dim); border-left: 2px solid var(--line2); padding-left: 6px;
+}
+.ocard .orow.up em { color: var(--okk); border-left-color: var(--okk); }
+.ocard .orow.dn em { color: var(--bad); border-left-color: var(--bad); }
+.ocard .off { margin-top: 8px; }
+.ordnow { margin: 4px 0 8px; font-size: 12px; color: var(--ink); }
+.ordnow b { color: var(--gold); margin-right: 8px; }
+.ordnow .dim { display: block; font-size: 11px; }
+
+/* ---------- 塑造树 ---------- */
+.srow {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 10px; background: var(--card2);
+  border: 1px solid var(--line); border-left: 2px solid var(--line2); border-radius: var(--r);
+}
+.srow + .srow { margin-top: 3px; }
+.srow.got { border-left-color: var(--gold); background: rgba(255, 207, 107, .05); }
+.srow.lock { opacity: .62; border-left-color: #2a1418; }
+.srow .smark { width: 14px; text-align: center; color: var(--dim); }
+.srow.got .smark { color: var(--gold); }
+.srow .sn { flex: 1; display: flex; flex-direction: column; }
+.srow .sn b { color: var(--ink); }
+.srow .sn em { font-style: normal; font-size: 11px; color: var(--dim); }
+.srow .sreq { font-size: 11px; color: var(--bad); white-space: nowrap; }
+.srow .sc { display: flex; gap: 6px; justify-content: flex-end; }
+
+/* ---------- 结算：看得见的惩罚 ---------- */
+.unlock.bad { border-color: #3a1418; background: #160a0c; color: var(--bad); }
+.pv.warn { border-color: #3a1418; }
+b.up { color: var(--okk); }
+b.dn { color: var(--bad); }
+
+/* ============================================================
+   游戏层（GAME LAYER）—— 舞台、仪表、节拍、签名
+   ------------------------------------------------------------------
+   这一版把界面按**游戏**来排，不再按后台面板来排。四条原则：
+
+     1. **战场与图形先于文字被看见。** 棋盘是这一部的舞台，
+        任何文字面板都不许插在它前面；
+     2. **每个数字都等宽、对齐、可比较。** 仪表条（.statline）是
+        读数，不是标签墙；
+     3. **动效只做三件事**：换页、开波、进化。别处一律安静——
+        动效一多，战斗里的弹道就不值钱了；
+     4. **空状态也是舞台。** 板子空着时给待命态，不给一块死黑。
+   ============================================================ */
+
+/* ---------- 氛围：极轻的网格与暗角 ----------
+   纹理只压在 #main 那块透明底上（顶栏 / 侧栏自带底色），
+   所以它永远在字后面，且只有 2% 多一点——看得见布局，看不清线。
+   暗角把视线收回中间，战场因此比四周亮。 */
+body { position: relative; }
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(127,214,255,.030) 0 1px, transparent 1px 26px),
+    repeating-linear-gradient(90deg, rgba(127,214,255,.030) 0 1px, transparent 1px 26px);
+  -webkit-mask-image: radial-gradient(120% 95% at 50% 28%, #000 0%, transparent 76%);
+  mask-image: radial-gradient(120% 95% at 50% 28%, #000 0%, transparent 76%);
+}
+body::after {
+  content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(130% 100% at 50% 42%, transparent 52%, rgba(0,0,0,.48) 100%);
+}
+#frame { position: relative; z-index: 1; }
+
+/* ---------- 页面标题：三级层次 ---------- */
+.mhead { margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.mhead h2 { font-size: 24px; font-weight: 600; letter-spacing: 3px; line-height: 1.15; }
+.msub {
+  margin-top: 5px; font-family: ui-monospace, Consolas, monospace;
+  font-size: 9.5px; letter-spacing: .42em; color: var(--dim);
+}
+.lead { margin-top: 8px; font-size: 13px; line-height: 1.8; color: var(--dim); }
+/* 小节标：左侧一段短规线，像仪表盘上的分区刻印 */
+.subhead {
+  display: flex; align-items: center; gap: 10px;
+  margin: 20px 0 10px; font-size: 12.5px; letter-spacing: .18em; color: var(--hot);
+}
+.subhead::before { content: ''; width: 3px; height: 12px; background: var(--hot); opacity: .8; }
+.subhead::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--line), transparent); }
+
+/* ---------- 仪表条 ----------
+   战场上那一排读数是玩家真正在看的数，所以给它一块底、一条主色左边、
+   等宽数字。数字比标签大一号——一眼先读到 15 / 28 / 3。 */
+.statline {
+  display: flex; flex-wrap: wrap; gap: 4px 22px; align-items: baseline;
+  margin: 8px 0 10px; padding: 9px 14px;
+  background: linear-gradient(180deg, #0a121c, #070c14);
+  border: 1px solid var(--line); border-left: 2px solid var(--hot);
+  border-radius: 4px; box-shadow: var(--sh);
+}
+.statline .kv { font-size: 15px; }
+.statline .kv b { font-size: 10px; letter-spacing: .1em; color: var(--dim); margin-right: 6px; }
+.statline .kv b + b { display: none; }
+
+/* ---------- 六项读数：从发丝加粗成仪表 ----------
+   旧版 5px、无底槽，在一屏深色里几乎看不见。现在 7px + 凹槽 + 亮端，
+   质变度这一组是「审美即战力」的唯一入口，它不该是全页最细的东西。 */
+.esb {
+  width: 44px; height: 7px; background: #0b1220; border: 1px solid var(--line);
+  border-radius: 2px; overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .6);
+}
+.esb i {
+  background: linear-gradient(90deg, #1f5c7e, var(--hot));
+  box-shadow: 0 0 8px -2px var(--hot);
+}
+.esn { font-size: 12px; }
+.esb + .esn { margin-left: 2px; }
+/* 花园六行同样加粗一档 */
+.pkb { height: 8px; background: #0b1220; box-shadow: inset 0 1px 2px rgba(0,0,0,.6); }
+.pkb i { background: linear-gradient(90deg, #1f5c7e, var(--hot)); opacity: 1; box-shadow: 0 0 8px -2px var(--hot); }
+.pkrow.zero .pkb i { background: #22303f; opacity: 1; box-shadow: none; }
+
+/* ---------- 抽卡概率：一档一块，条加粗 ---------- */
+.odc i { height: 5px; border-radius: 1px; box-shadow: 0 0 10px -3px currentColor; }
+.odc { border-radius: 4px; }
+.odc.r4 { background: linear-gradient(180deg, #141008, #090f18); }
+
+/* ---------- 换页：一次上浮，前五块错峰 ----------
+   整页一起动像表格刷新；错峰才像「换了一屏」。
+   只动 transform / opacity，不碰布局。 */
+#panel.pv > *:nth-child(-n+5) { animation: pvUp .26s cubic-bezier(.2,.7,.3,1) both; }
+#panel.pv > *:nth-child(2) { animation-delay: .035s; }
+#panel.pv > *:nth-child(3) { animation-delay: .07s; }
+#panel.pv > *:nth-child(4) { animation-delay: .105s; }
+#panel.pv > *:nth-child(5) { animation-delay: .14s; }
+@keyframes pvUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* ---------- 按钮：按下去要有「按下去」 ---------- */
+.btn { transition: border-color .12s, color .12s, box-shadow .12s, transform .06s; }
+.btn:active:not([disabled]) { transform: translateY(1px); box-shadow: inset 0 2px 6px rgba(0, 0, 0, .45); }
+.btn.on { box-shadow: 0 0 0 1px var(--hot) inset, 0 0 18px -10px var(--hot); }
+
+/* ---------- 战场：格子随屏放大 ----------
+   24px 的格子在 1440 宽的屏上只占三分之一宽，战场像一张缩略图。
+   宽屏给 27 / 30px——战场的面积就是这一部的排场。
+   格子内的一切（塔/敌人/弹道/盾环）都按百分比铺满，跟着一起缩放。 */
+.bgrid { grid-template-columns: repeat(var(--cols, 22), var(--cell, 24px)); }
+.cell { width: var(--cell, 24px); height: var(--cell, 24px); }
+@media (min-width: 1280px) { #panel { --cell: 27px; } }
+@media (min-width: 1560px) { #panel { --cell: 30px; } }
+
+/* ---------- 待命战场：没开局时也是一座舞台 ----------
+   旧版这里只有一句「现在没有进行中的一局」——一屏黑加一句话。
+   现在给一张空场地：网格、扫描、一张卡片。让人先看见这游戏长什么样。 */
+.arena {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  min-height: 320px; margin: 10px 0 4px; padding: 24px;
+  border: 1px solid var(--line2); border-radius: 4px; overflow: hidden;
+  background: #060a12; box-shadow: inset 0 0 70px rgba(0, 0, 0, .6);
+}
+.arena::before {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(127,214,255,.055) 0 1px, transparent 1px 26px),
+    repeating-linear-gradient(90deg, rgba(127,214,255,.055) 0 1px, transparent 1px 26px);
+  -webkit-mask-image: radial-gradient(78% 82% at 50% 50%, #000 0%, transparent 82%);
+  mask-image: radial-gradient(78% 82% at 50% 50%, #000 0%, transparent 82%);
+}
+.arena::after {
+  content: ''; position: absolute; left: 0; right: 0; top: -32%; height: 30%;
+  background: linear-gradient(180deg, transparent, rgba(127,214,255,.10), transparent);
+  animation: arenaScan 5.6s linear infinite;
+}
+@keyframes arenaScan { to { transform: translateY(440%); } }
+.acard {
+  position: relative; z-index: 1; text-align: center;
+  padding: 20px 30px 22px; min-width: 300px;
+  background: rgba(8, 13, 21, .88); border: 1px solid var(--line2); border-radius: 4px;
+  -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+}
+.acard b { display: block; font-size: 17px; letter-spacing: .32em; color: var(--ink); }
+.acard span {
+  display: block; margin-top: 6px; font-family: ui-monospace, Consolas, monospace;
+  font-size: 10px; letter-spacing: .3em; color: var(--dim);
+}
+.acard em { display: block; margin: 10px 0 14px; font-style: normal; font-size: 12px; color: var(--dim); }
+
+/* ---------- 空板提示：贴在图纸中央的一行字 ----------
+   图纸空着时，板子中央给一句话（不遮网格）。有件之后它自己消失。 */
+.stagehint {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  pointer-events: none; text-align: center; font-size: 12px; line-height: 1.9;
+  color: var(--dim2); letter-spacing: .08em;
+}
+.stagehint b { display: block; font-size: 13px; letter-spacing: .3em; color: var(--ink); font-weight: 500; }
+.sheetwrap { position: relative; }
+
+/* ---------- 签名：进化塌缩 ----------
+   提交那一刻，板上的整具图形收拢成一颗单格炮塔。这是「审美即战力」
+   唯一的高光时刻，也是这一部最该被记住的一秒：形状即塔。
+   纯表现，不碰判定——rec 里的格子只是用来画的。 */
+.collapse {
+  position: fixed; inset: 0; z-index: 90; display: flex;
+  align-items: center; justify-content: center;
+  background: rgba(3, 5, 9, .84); animation: cfIn .2s ease-out;
+  -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+  pointer-events: none;
+}
+@keyframes cfIn { from { opacity: 0; } to { opacity: 1; } }
+/* flex:none 是必须的：默认的 stretch 会把 aspect-ratio:1 撑成竖长条，
+   于是那圈「冲击波」画出来是个椭圆。 */
+.collapse .cfig { position: relative; flex: none; width: min(44vw, 380px); aspect-ratio: 1; display: grid; place-items: center; }
+.collapse svg { width: 100%; height: 100%; overflow: visible; }
+/* 塌缩分三段：先蓄力（1.0 → 1.04 并亮一下），再急速收拢，最后成一个点。
+   一次性匀速缩小看不出「塌缩」，只有「变小」——蓄力那 180ms 才是那口气。 */
+.collapse .cf { animation: cfShrink .78s cubic-bezier(.5, 0, .25, 1) forwards; transform-origin: 50% 50%; }
+@keyframes cfShrink {
+  0%   { opacity: 1; transform: scale(1); filter: brightness(1); }
+  23%  { opacity: 1; transform: scale(1.045); filter: brightness(1.5); }
+  72%  { opacity: .95; transform: scale(.09); filter: brightness(2.2); }
+  100% { opacity: 0; transform: scale(.012); filter: brightness(3); }
+}
+/* 固定 px 的正方形：百分比宽高在 .cfig 上不等值，环会被压成椭圆。 */
+.collapse .cring {
+  position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px;
+  border: 1px solid var(--hot); border-radius: 50%; opacity: 0;
+  box-shadow: 0 0 18px -6px var(--hot);
+  animation: cfRing .55s .46s cubic-bezier(.2,.8,.3,1) forwards;
+}
+@keyframes cfRing {
+  0% { opacity: .9; transform: scale(.9); }
+  60% { opacity: .5; }
+  100% { opacity: 0; transform: scale(2.3); }
+}
+.collapse .cname {
+  position: absolute; left: 50%; bottom: 6%; transform: translateX(-50%);
+  white-space: nowrap; font-family: ui-monospace, Consolas, monospace;
+  font-size: 11px; letter-spacing: .26em; color: var(--dim2); opacity: 0;
+  animation: cfName .5s .5s ease-out forwards;
+}
+@keyframes cfName { to { opacity: 1; } }
+
+/* ---------- 窄屏 ---------- */
+@media (max-width: 860px) {
+  .mhead h2 { font-size: 20px; }
+  .arena { min-height: 240px; }
+  .acard { min-width: 0; padding: 16px 18px; }
+  .collapse .cfig { width: 62vw; }
+}
+
+/* ---------- 收敛：系统减少动效时，只留换页的一点点位移 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  body::before, body::after { display: none; }
+  .arena::after { display: none; }
+  #panel.pv > * { animation: none !important; }
+  .collapse .cf, .collapse .cring, .collapse .cname { animation-duration: .01s !important; animation-delay: 0s !important; }
+}
+
+/* ---------- 塌缩图形的稀有度色（与工坊 / 战场同一套色） ---------- */
+.collapse .cf rect { fill: var(--r0); }
+.collapse .cf.r1 rect { fill: var(--r1); }
+.collapse .cf.r2 rect { fill: var(--r2); }
+.collapse .cf.r3 rect { fill: var(--r3); }
+.collapse .cf.r4 rect { fill: var(--r4); }
+
+/* ---------- 战场居中：棋盘是画面中心，空出来的地让给塔详情 ---------- */
+.fcols.bfc { justify-content: center; }
+/* 路：比空地亮一档、比塔暗两档——它是「地」，不该和塔抢。
+   27/30px 的格子下，原来的 #2a3346 读起来像一堵堵墙。 */
+.cell.p { background: #1b2433; box-shadow: inset 0 0 0 1px rgba(127, 214, 255, .045); }
+/* 战场待命：舞台撑满一屏（有上限），空着也像一座场地 */
+.arena { min-height: clamp(320px, calc(100vh - 320px), 640px); }
+@media (min-width: 1400px) { #panel { --cell: 30px; } }
+
+/* ---------- 战场的框：一座有边界的场地 ----------
+   空地与页面底色几乎同色，棋盘就「消失」了——只剩路径和塔浮在暗处。
+   加一层底板 + 四角取景标（和这一部的「仪表」语言一致）：
+   战场因此是一块被框住的场地，而不是一块漏底的区域。 */
+.bframe {
+  position: relative; padding: 10px; width: fit-content;
+  background: #070c14;
+  border: 1px solid var(--line2); border-radius: 4px;
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, .55), 0 10px 30px -22px #000;
+}
+.bframe::before, .bframe::after {
+  content: ''; position: absolute; width: 12px; height: 12px; pointer-events: none;
+  border-color: var(--hot); border-style: solid; opacity: .7;
+}
+.bframe::before { left: 4px; top: 4px; border-width: 1px 0 0 1px; }
+.bframe::after { right: 4px; bottom: 4px; border-width: 0 1px 1px 0; }
+/* 空地亮一档：网格要看得见，路才显得是路 */
+.cell { background: #0c1219; border-color: #0f1721; }
+@media (min-width: 1400px) { #panel { --cell: 32px; } }
+
+/* ============================================================
+   装饰层（第二波）—— 极简的笔，热闹的场
+   ------------------------------------------------------------------
+   每一笔装饰都只有一两个像素的分量，但铺满一屏就热闹了：
+   扫描带、卡片角标、路面的流光、部署格的呼吸、招牌的闪光。
+   系统减少动效时只留静态的那几笔。
+   ============================================================ */
+
+/* ---------- CRT 扫描线 + 一条九秒过一遍的微光带 ----------
+   扫描线 1px/3px、暗色 10%——在深底上只给文字蒙一层极淡的膜；
+   微光带从页顶走到页底，全屏唯一的「整页级」动效。 */
+#frame::before {
+  content: ''; position: fixed; inset: 0; z-index: 59; pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .16) 0 1px, transparent 1px 3px);
+  opacity: .3;
+}
+#frame::after {
+  content: ''; position: fixed; left: 0; right: 0; top: -160px; height: 140px;
+  z-index: 60; pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(127, 214, 255, .030) 45%,
+    rgba(127, 214, 255, .05) 50%, rgba(127, 214, 255, .030) 55%, transparent);
+  animation: appScan 9.5s linear infinite;
+}
+@keyframes appScan { to { transform: translateY(calc(100vh + 320px)); } }
+
+/* ---------- 顶栏：底下一条会发光的缝 ---------- */
+header {
+  border-bottom: 0;
+  box-shadow: 0 1px 0 rgba(127, 214, 255, .16), 0 10px 22px -16px #000;
+}
+/* 招牌闪光：六秒一遍的高光从字上扫过（brand 不在 #hud 里，
+   顶栏每 100ms 的重画碰不到它，动画得以活满全程） */
+.brand .bt {
+  background: linear-gradient(100deg, var(--hot) 42%, #eafaff 50%, var(--hot) 58%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: brandShine 6s linear infinite;
+}
+@keyframes brandShine { to { background-position: -220% 0; } }
+/* 底栏行末一枚闪烁的光标符：这台机器活着 */
+#ticker::after {
+  content: '▍'; margin-left: 4px; color: var(--hot);
+  animation: tBlink 1.1s steps(2) infinite;
+}
+@keyframes tBlink { 50% { opacity: 0; } }
+
+/* ---------- 卡片角标：关键面板四角各一只 L ----------
+   与战场框同一套语言：被框住的，都是重要读数。 */
+.pv, .bx-flux { position: relative; }
+.pv::after, .bx-flux::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .75;
+  background:
+    linear-gradient(var(--line2), var(--line2)) left top / 10px 1px no-repeat,
+    linear-gradient(var(--line2), var(--line2)) left top / 1px 10px no-repeat,
+    linear-gradient(var(--line2), var(--line2)) right top / 10px 1px no-repeat,
+    linear-gradient(var(--line2), var(--line2)) right top / 1px 10px no-repeat,
+    linear-gradient(var(--line2), var(--line2)) left bottom / 10px 1px no-repeat,
+    linear-gradient(var(--line2), var(--line2)) left bottom / 1px 10px no-repeat,
+    linear-gradient(var(--line2), var(--line2)) right bottom / 10px 1px no-repeat,
+    linear-gradient(var(--line2), var(--line2)) right bottom / 1px 10px no-repeat;
+}
+
+/* ---------- 战争室右栏：塔详情压着阵型面板 ---------- */
+.rcol {
+  flex: 1 1 320px; min-width: 300px; max-width: 470px;
+  display: flex; flex-direction: column; gap: 12px; min-height: 0;
+}
+.rcol .bside { max-width: none; }
+.rcol .bx-flux { margin: 0; }
+
+/* ---------- 路面流光：能量在地里往一个方向淌 ----------
+   竖条纹每 2.4s 平移两个周期，相邻格子同相位，拼成一条连续的河。 */
+.cell.p {
+  background-image: repeating-linear-gradient(90deg,
+    rgba(127, 214, 255, .05) 0 5px, transparent 5px 11px);
+  animation: pathFlow 2.4s linear infinite;
+}
+@keyframes pathFlow { to { background-position: 22px 0; } }
+
+/* ---------- 部署格呼吸：哪里能放，哪里就在轻轻吸气 ---------- */
+.bgrid .cell.ok { animation: okBreath 1.7s ease-in-out infinite; }
+@keyframes okBreath {
+  0%, 100% { box-shadow: 0 0 0 1px var(--okk) inset; }
+  50% { box-shadow: 0 0 0 1px rgba(110, 231, 168, .38) inset, 0 0 14px -4px var(--okk); }
+}
+
+/* ---------- 开波仪式：框闪一道，波号浮起又沉下 ---------- */
+.bframe.wflash { animation: wfPulse .95s ease-out; }
+@keyframes wfPulse {
+  0% { box-shadow: inset 0 0 0 1px var(--hot), 0 0 46px -8px var(--hot), inset 0 0 50px rgba(0,0,0,.55); }
+  100% { box-shadow: inset 0 0 50px rgba(0, 0, 0, .55), 0 10px 30px -22px #000; }
+}
+.waven {
+  position: absolute; left: 50%; top: 36%; transform: translate(-50%, -50%);
+  font-family: ui-monospace, Consolas, monospace; font-size: 42px; font-weight: 600;
+  letter-spacing: .3em; color: var(--hot); text-shadow: 0 0 34px rgba(127, 214, 255, .8);
+  opacity: 0; pointer-events: none; white-space: nowrap;
+  animation: wavenIn .95s cubic-bezier(.2, .7, .3, 1) forwards;
+}
+@keyframes wavenIn {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.72); }
+  16% { opacity: .95; }
+  68% { opacity: .9; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -60%) scale(1.03); }
+}
+
+/* ---------- 收敛 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  #frame::after { display: none; }
+  .cell.p, .bgrid .cell.ok, .brand .bt { animation: none !important; }
+  .bframe.wflash { animation: none !important; }
+  .waven { display: none; }
+}
+
+/* ---------- 战备指令：下过令的那一波把卡片压暗 ----------
+   不是禁用——是**拿走按钮**。一排点不动的死钮只会换来一句「已经下过」，
+   那是这一部最坏的反馈；压暗 + 一句「下一波再选」，玩家一眼就知道
+   下一波还有一次机会（同一条指令也可以再选）。 */
+.ocards.locked { opacity: .42; filter: saturate(.5); }
+.ocards.locked .ocard { border-color: var(--line); box-shadow: none; }

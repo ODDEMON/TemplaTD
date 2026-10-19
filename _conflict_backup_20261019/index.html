@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<<<<<<< HEAD
+<title>TemplaTD · 构成塔防</title>
+<meta name="description" content="TemplaTD：把图形在工坊里拼好、提交进化成单格炮塔，再送进一座无限模式的塔防。拼图形、种花园、摆阵型——你摆出来的形状自己接管战斗参数。无构建、无依赖，双击就能跑。">
+<meta name="theme-color" content="#05070c">
+<meta name="color-scheme" content="dark">
+<!-- 图标内联成 data URI：这一部没有外部资源，双击 index.html 就能跑，
+     多一个 favicon.ico 就多一次断网时的 404。 -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23070b12'/%3E%3Cg fill='none' stroke='%237fd6ff' stroke-width='2'%3E%3Crect x='5.5' y='5.5' width='9' height='9' rx='1.5'/%3E%3Crect x='17.5' y='5.5' width='9' height='9' rx='1.5'/%3E%3Crect x='5.5' y='17.5' width='9' height='9' rx='1.5'/%3E%3C/g%3E%3Crect x='17.5' y='17.5' width='9' height='9' rx='1.5' fill='%23ffcf6b'/%3E%3C/svg%3E">
+=======
+<title>CONFIGURA</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Ccircle cx='60' cy='60' r='46' fill='none' stroke='%2335e6ff' stroke-width='6'/%3E%3Cpath d='M60 26v16M60 78v16M26 60h16M78 60h16' stroke='%2335e6ff' stroke-width='6'/%3E%3Ccircle cx='60' cy='60' r='7' fill='%23ff2fb0'/%3E%3C/svg%3E">
+>>>>>>> 6639c8bd4f64d897c2934d8577735e5d9e735986
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="frame">
+  <header>
+    <div class="brand"><span class="bt">构成塔防</span><span class="bs">TEMPLATD</span></div>
+    <div id="hud"></div>
+    <div class="tools">
+      <button id="btnCalm" title="冷静模式：放慢播放，不改任何判定">冷静 关</button>
+    </div>
+  </header>
+
+  <div class="body">
+    <nav id="rail" aria-label="界面"></nav>
+    <main id="main"><div id="panel"></div></main>
+  </div>
+
+  <footer><div id="ticker"></div><div id="sign" class="sign">TEMPLATD 0.2 · 离线 · 无构建 · 无依赖</div></footer>
+</div>
+
+<!-- 氛围层：只参与看，不参与任何读数。低烈度 / 减少动效下整层退场（见 style.css 末段）。
+     极光与微尘在 #frame 之下（z 0/1），颗粒 / 暗角 / 测斑在正文之上（z 40）。 -->
+<div id="atmos" aria-hidden="true">
+  <div class="au a1"></div><div class="au a2"></div>
+  <div id="motes"></div>
+</div>
+<div id="grain" aria-hidden="true"></div>
+<div id="vig" aria-hidden="true"></div>
+<div id="spot" aria-hidden="true"></div>
+
+<!-- 开场：测绘校准。一次会话只演一次（sessionStorage），点击或按键可跳过；
+     低烈度 / 系统减少动效 / 看过了，core/atmos.js 直接把这个节点拔掉。 -->
+<div id="boot" hidden></div>
+
+<!-- 依赖顺序是有讲究的：
+     essence 要在 body 之后（body 的 stats 会调它）；
+     world 的四张表（towers/enemies/waves/meta）要在 core 的映射层之前；
+     tower/build 在 parts 与 essence 之后；shop 在 tower/build 之后；
+     td 在 shop 之后（它不依赖 shop，但 run 两者都用）；
+     run 最后（它要用上面全部：阵型读数要 essence、乱流要交给 td）；
+     app 装配一切。
+     每进一页 app 会新建一个容器交给那一页——界面之间不共享节点。
+
+     语言层只剩 core/i18n.js 一个文件，四语叠加层整体退场：
+     T() 这个调用点在全部子界面里一个没动，今天直通中文。
+     指针宇宙（core/apex.js 与 world/mods/apex.js）已经删掉：
+     接管战斗标量的那一头，由「阵型」接上——本局摆下的塔本身就是
+     一具图形，六项读数各管一个标量。run.js 是那座桥。 -->
+<script src="core/util.js"></script>
+<script src="core/i18n.js"></script>
+<script src="core/seed.js"></script>
+<script src="core/eff.js"></script>
+<script src="core/geo.js"></script>
+<script src="core/bus.js"></script>
+<script src="core/parts.js"></script>
+<script src="core/body.js"></script>
+<script src="core/essence.js"></script>
+<<<<<<< HEAD
+<script src="world/towers.js"></script>
+<script src="world/enemies.js"></script>
+<script src="world/waves.js"></script>
+<script src="world/meta.js"></script>
+<script src="world/cond.js"></script>
+<script src="world/orders.js"></script>
+<script src="core/tower.js"></script>
+<script src="core/build.js"></script>
+<script src="core/shop.js"></script>
+<script src="core/store.js"></script>
+<script src="core/garden.js"></script>
+<script src="core/td.js"></script>
+<script src="core/meta.js"></script>
+<script src="core/run.js"></script>
+=======
+<script src="core/catalog.js"></script>
+<script src="core/auction.js"></script>
+<script src="core/tree.js"></script>
+<script src="core/sim.js"></script>
+<script src="core/quests.js"></script>
+<script src="core/achieve.js"></script>
+<script src="core/render.js"></script>
+<script src="core/rig.js"></script>
+>>>>>>> 6639c8bd4f64d897c2934d8577735e5d9e735986
+<script src="core/ui.js"></script>
+<script src="core/fx.js"></script>
+<script src="core/registry.js"></script>
+<<<<<<< HEAD
+=======
+<script src="world/mods/assembly.js"></script>
+<script src="world/mods/library.js"></script>
+<script src="world/mods/quests.js"></script>
+<script src="world/mods/tree.js"></script>
+<script src="world/mods/measure.js"></script>
+<script src="world/mods/atlas.js"></script>
+<script src="world/mods/auction.js"></script>
+<script src="world/mods/traits.js"></script>
+<script src="world/mods/families.js"></script>
+<script src="world/mods/achieve.js"></script>
+<script src="world/mods/record.js"></script>
+<script src="world/mods/settings.js"></script>
+<script src="world/mods/dual.js"></script>
+<script src="world/mods/manifesto.js"></script>
+>>>>>>> 6639c8bd4f64d897c2934d8577735e5d9e735986
+<script src="world/i18n/en.js"></script>
+<script src="world/mods/forge.js"></script>
+<script src="world/mods/battle.js"></script>
+<script src="world/mods/assembly.js"></script>
+<script src="world/mods/armory.js"></script>
+<script src="world/mods/store.js"></script>
+<script src="world/mods/upgrade.js"></script>
+<script src="world/mods/garden.js"></script>
+<script src="world/mods/measure.js"></script>
+<script src="world/mods/meta.js"></script>
+<script src="world/mods/shaping.js"></script>
+<script src="world/mods/codex.js"></script>
+<script src="world/mods/settings.js"></script>
+<script src="core/app.js"></script>
+<script src="core/atmos.js"></script>
+
+</body>
+</html>

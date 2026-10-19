@@ -1,0 +1,32 @@
+MIT License
+
+Copyright (c) 2026 构形 · CONFIGURA 的作者与贡献者
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------
+关于本仓库文档的一句补充（与上面的 MIT 不冲突，只是说清楚范围）
+--------------------------------------------------------------------------
+
+本仓库内的 README.md 与 手册.md 属于本许可覆盖的文档。
+
+二者写的是这部作品的玩法定义、数值口径与立场声明。你可以照着它们重新实现
+一个等价的系统，也可以引用其中的观点并注明出处；但若要原样分发这两份文档的
+实质部分（含其文风与表述），请在你的衍生版本里沿用同一许可并保留出处说明。
+代码与文档在此许可下是同一件事：都能改、都能发，都要留个名字。

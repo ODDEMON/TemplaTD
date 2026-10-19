@@ -1,0 +1,24 @@
+import fs from 'fs'; import path from 'path';
+const ROOT='E:/__SOMETHING_REAL__/AI_Work/TemplaTD';
+const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
+import { JSDOM, VirtualConsole } from 'jsdom';
+const vc=new VirtualConsole(); vc.on('jsdomError',e=>console.log('JSDOMERR',e.message));
+const dom=new JSDOM(html,{url:'http://localhost/',runScripts:'dangerously',resources:undefined,virtualConsole:vc,beforeParse(w){w.requestAnimationFrame=()=>0;w.cancelAnimationFrame=()=>{};}});
+const w=dom.window, doc=w.document;
+const ORDER=[];
+const re=/<script src="([^"]+)"><\/script>/g; let m;
+while((m=re.exec(html))) ORDER.push(m[1]);
+for(const f of ORDER){ try{ w.eval(fs.readFileSync(path.join(ROOT,f),'utf8')); }catch(e){ console.log('LOADFAIL',f,e.message); } }
+const BS=w.BS;
+BS.app.init && BS.app.init();
+BS.shop.clear(); BS.shop.place(0,[3,2],0);
+const sub=BS.shop.submit();
+console.log('submit ok', sub.ok);
+const r=BS.run.newRun(31337);
+console.log('add', JSON.stringify(BS.run.add(r, sub.rec.id, [2,2])));
+console.log('begin', JSON.stringify(BS.run.begin(r)));
+const b=r.battle;
+console.log('after begin: wave',b.wave,'toSpawn',b.toSpawn.length,'enemies',b.enemies.length,'hp',b.baseHp);
+for(let i=0;i<40;i++) BS.td.tickOnce(b);
+console.log('after 40 ticks: wave',b.wave,'toSpawn',b.toSpawn.length,'enemies',b.enemies.length,'hp',b.baseHp,'tick',b.tick);
+console.log('path len', b.path.length, 'first', JSON.stringify(b.path.slice(0,5)));
